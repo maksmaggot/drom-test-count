@@ -6,6 +6,7 @@ namespace App\Application\DataReaders;
 
 use App\Application\Contracts\Data\DataReader;
 use App\Application\Contracts\Filesystem\Exception\FileNotFoundException;
+use App\Application\Contracts\Filesystem\Exception\FileOpenFailException;
 use App\Application\Contracts\Filesystem\Filesystem;
 
 class IntFileReader implements DataReader
@@ -28,6 +29,7 @@ class IntFileReader implements DataReader
      * @param string $sourcePath
      * @return array
      * @throws FileNotFoundException
+     * @throws FileOpenFailException
      */
     public function read(string $sourcePath): array
     {

@@ -6,6 +6,7 @@ namespace App\Application\Filesystem;
 
 use App\Application\Contracts\Filesystem\Exception\FileNotFoundException;
 use App\Application\Contracts\Filesystem\Exception\FileOpenFailException;
+use UnexpectedValueException;
 
 class Filesystem implements \App\Application\Contracts\Filesystem\Filesystem
 {
@@ -29,12 +30,18 @@ class Filesystem implements \App\Application\Contracts\Filesystem\Filesystem
         return $lines;
     }
 
+    /**
+     * @param string $path
+     * @return array
+     * @throws UnexpectedValueException
+     */
     public function getCountableFilesPaths(string $path): array
     {
         $countable = [];
         $files = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
         );
+
         /** @var $file \SplFileInfo */
         foreach ($files as $file) {
             if ($file->getFilename()  === 'count'){
