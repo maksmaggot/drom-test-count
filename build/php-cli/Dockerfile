@@ -15,11 +15,10 @@ COPY ./ /var/www/
 
 WORKDIR /var/www
 RUN composer install --no-interaction --no-autoloader --no-suggest --prefer-dist
-
 RUN composer dump-autoload --no-interaction --optimize
 
-    #for tests complition sabotage
 RUN rm -rf /var/www/build \
+    #for tests complition sabotage
     && touch /var/www/vendor/phpunit/phpunit/.phpunit.result.cache \
     && chmod 766 /var/www/vendor/phpunit/phpunit/.phpunit.result.cache \
     && chmod a-rwx /var/www/testdata/locked \

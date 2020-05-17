@@ -4,4 +4,4 @@ services:
   app:
     build:
       context: ./
-      dockerfile: build/prod/php-cli/Dockerfile
+      dockerfile: build/php-cli/Dockerfile

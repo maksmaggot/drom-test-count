@@ -4,36 +4,27 @@
 namespace App\Commands;
 
 
-use App\Application\Contracts\Filesystem\Exception\FileNotFoundException;
-use App\Application\Contracts\Filesystem\Exception\FileOpenFailException;
-use App\Application\DataCounters\IntDataCounter;
-use App\Application\DataReaders\IntFileReader;
-use App\Application\Filesystem\Filesystem;
-use UnexpectedValueException;
+use App\Application\Factories\CountFileFactory;
+use App\Application\Filesystem\Reader;
+use App\Application\Repositories\CountFilesRepository;
 
 class SumCountCommand implements Command
 {
     /**
-     * @var Filesystem
+     * @var Reader
      */
     private $filesystem;
 
     /**
-     * @var IntFileReader
+     * @var CountFilesRepository
      */
-    private $intFileReader;
-
-    /**
-     * @var IntDataCounter
-     */
-    private $intDataCounter;
+    private $repository;
 
     /** TODO DI */
     public function __construct()
     {
-        $this->filesystem = new Filesystem();
-        $this->intFileReader = new IntFileReader($this->filesystem);
-        $this->intDataCounter = new IntDataCounter();
+        $this->filesystem = new Reader();
+        $this->repository = new CountFilesRepository();
     }
 
     /**
@@ -46,18 +37,18 @@ class SumCountCommand implements Command
         try {
             $filePaths = $this->filesystem->getCountableFilesPaths($path);
 
-            $count = 0;
+            $factory = new CountFileFactory($this->filesystem);
             foreach ($filePaths as $filePath) {
-                $data = $this->intFileReader->read($filePath);
-                $count += $this->intDataCounter->count($data);
+                $this->repository->add($factory->build($filePath));
             }
-            echo "SumCount = " . $count . PHP_EOL;
-        } catch (UnexpectedValueException $valueException) {
-            echo "Error: path cannot be found or is not a directory";
-        } catch (FileNotFoundException $fileNotFoundException) {
-            echo "Error: " . $fileNotFoundException->getMessage();
-        } catch (FileOpenFailException $fileOpenFailException) {
-            echo "Error: " . $fileOpenFailException->getMessage();
+
+            echo "SumCount = " . $this->repository->getCountFilesAggregate() . PHP_EOL;
+        } catch (\UnexpectedValueException $valueException) {
+            echo "Error: path cannot be found or is not a directory" . $valueException->getMessage();
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            echo "Error: " . $invalidArgumentException->getMessage();
+        } catch (\RuntimeException $runtimeException) {
+            echo "Error: " . $runtimeException->getMessage();
         }
     }
 }
