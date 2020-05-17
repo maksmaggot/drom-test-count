@@ -4,7 +4,7 @@
 namespace App\Application\Repositories;
 
 
-use app\Application\Models\CountFile;
+use App\Application\Models\CountFile;
 
 class CountFilesRepository
 {
