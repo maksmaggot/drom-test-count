@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Application\Filesystem;
+namespace App\Application\Storage;
 
 
-class Reader implements Filesystem
+class LocalStorage implements FileStorage
 {
     /**
      * @param $path

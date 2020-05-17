@@ -5,13 +5,13 @@ namespace App\Commands;
 
 
 use App\Application\Factories\CountFileFactory;
-use App\Application\Filesystem\Reader;
+use App\Application\Storage\LocalStorage;
 use App\Application\Repositories\CountFilesRepository;
 
 class SumCountCommand implements Command
 {
     /**
-     * @var Reader
+     * @var LocalStorage
      */
     private $filesystem;
 
@@ -23,7 +23,7 @@ class SumCountCommand implements Command
     /** TODO DI */
     public function __construct()
     {
-        $this->filesystem = new Reader();
+        $this->filesystem = new LocalStorage();
         $this->repository = new CountFilesRepository();
     }
 

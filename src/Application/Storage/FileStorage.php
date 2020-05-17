@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Application\Filesystem;
+namespace App\Application\Storage;
 
 
-interface Filesystem
+interface FileStorage
 {
     /**
      * @param $path

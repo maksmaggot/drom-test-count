@@ -4,21 +4,21 @@
 namespace App\Application\Factories;
 
 
-use App\Application\Filesystem\Filesystem;
+use App\Application\Storage\FileStorage;
 use App\Application\Models\CountFile;
 
 class CountFileFactory
 {
     /**
-     * @var Filesystem
+     * @var FileStorage
      */
     private $reader;
 
     /**
      * CountFileFactory constructor.
-     * @param Filesystem $reader
+     * @param FileStorage $reader
      */
-    public function __construct(Filesystem $reader)
+    public function __construct(FileStorage $reader)
     {
         $this->reader = $reader;
     }

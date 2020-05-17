@@ -2,19 +2,19 @@
 
 namespace Tests\Application\Filesystem;
 
-use App\Application\Filesystem\Reader;
+use App\Application\Storage\LocalStorage;
 use PHPUnit\Framework\TestCase;
 
 class ReaderTest extends TestCase
 {
     /**
-     * @var Reader
+     * @var LocalStorage
      */
     private $filesystem;
 
     protected function setUp(): void
     {
-        $this->filesystem = new Reader();
+        $this->filesystem = new LocalStorage();
     }
 
     /**
